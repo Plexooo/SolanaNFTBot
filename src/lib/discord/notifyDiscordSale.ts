@@ -22,17 +22,29 @@ export default async function notifyDiscordSale(
   }
 
   const { marketplace, nftData } = nftSale;
-  const description = `Sold for ${nftSale.getPriceInSOL()} S◎L at ${
-    marketplace.name
-  }`;
+  const description = `Sold for ${nftSale.getPriceInSOL()} SOL at ${marketplace.name}`;
   const embedMsg = new MessageEmbed({
-    color: "#0099ff",
-    title: nftData?.name,
-    description,
+    color: "#00ff84",
+    title: nftData?.name + ' is gone!',
     url: marketplace.itemURL(nftSale.token),
-    thumbnail: {
+    fields: [
+      {
+        name: 'Price',
+        value: nftSale.getPriceInSOL() + ' SOL',
+      },
+      {
+        name: 'Marketplace',
+        value: marketplace.name,
+      },      
+      {
+        name: 'Address',
+        value: nftSale.token,
+      },
+    ],
+    image: {
       url: nftData?.image,
     },
+    timestamp: new Date(),
   });
   await channel.send({
     embeds: [embedMsg],
